@@ -1,10 +1,9 @@
 #!/usr/bin/sudo /usr/bin/python3
 
-# Autor: Mateusz Wasążnik
+# Autor: MattTheCoder-W
 # Data: 25.05.2021
 # Działanie: Program pozwala na pracę z plikiem netplan w sposób zautomatyzowany oraz przejrzysty dla użytkownika
-# System: Linux (Ubuntu 18/20)
-# Status: Ukonczone
+# System: Linux (przetestowano dla Ubuntu 18/20)
 
 import os
 import sys
