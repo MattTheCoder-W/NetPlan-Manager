@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/sudo /usr/bin/python3
 
 # Autor: Mateusz Wasążnik
 # Data: 25.05.2021
@@ -10,15 +10,18 @@ import os
 import sys
 import time
 import keyboard
+import subprocess
 from getch import getch
 from curtsies.fmtfuncs import red, bold, green, on_blue, yellow, blue, cyan
+
 
 if os.name != "posix":
     print("Ten program działa tylko na systemach typu Linux")
     exit()
 if os.geteuid() != 0:
-    print("Uruchom ten program jako root!!!")
-    exit()
+    # print("Uruchom ten program jako root!!!")
+    p = subprocess.Popen(["sudo", "-s", "whoami"], stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    p.kill()
 
 w, h = list(os.get_terminal_size())
 VERBOSE = False
@@ -247,7 +250,7 @@ if len(sys.argv) >= 2 and sys.argv[1] == "reset":
     resetMode = True
     print(yellow("UWAGA! Jesteś w trybie resetowania konfiguracji!"))
 
-interfaces = os.listdir("/sys/class/net/")
+interfaces = [x for x in os.listdir("/sys/class/net/") if x[0] != "w"]
 
 print(yellow("UWAGA! Program opsługuje tylko interfejsy połączeń kablowych!"))
 
