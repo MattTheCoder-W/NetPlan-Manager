@@ -17,8 +17,7 @@ from curtsies.fmtfuncs import red, bold, green, on_blue, yellow, blue, cyan
 if os.name != "posix":
     print("Ten program działa tylko na systemach typu Linux")
     exit()
-if os.geteuid() != 0:
-    # print("Uruchom ten program jako root!!!")
+if os.geteuid() != 0:  # Potrzebne są uprawnienia roota
     p = subprocess.Popen(["sudo", "-s", "whoami"], stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
     p.kill()
 
@@ -42,14 +41,14 @@ def ask(title, options, default=0, fill=2):
                 except KeyError:
                     print("Podaj wartość z zakresu!")
             else:
-                print("Podaj wartość liczbową!")
+                print("Podaj wartość liczbową!")
         else:
             out = options[default]
             break
     return out
 
 IP, MASK, YESNO = [0, 1, 2]
-def askfordata(prefix, typ=IP):
+def askfordata(prefix, typ):
     out = None
     while True:
         out = input(f"{prefix} -> ")
@@ -94,10 +93,7 @@ def contains(search, lst):
 
 
 def check_interest(interest, data):
-    for elem in data:
-        if elem in range(interest[0], interest[1]+1):
-            return elem
-    return None
+    return [elem for elem in data if elem in range(interest[0], interest[1]+1)][0]
 
 
 class NetPlan:
@@ -116,7 +112,6 @@ class NetPlan:
         init_lines = ['network:',
                 '\tversion: 2',
                 '\trenderer: NetworkManager']
-
         with open(out, "w") as f:
             for line in init_lines:
                 line = line.replace("\t", "  ")
@@ -319,4 +314,3 @@ if run:
     os.system("sudo netplan apply")
 
 print("Program zakończył działanie ;)")
-
